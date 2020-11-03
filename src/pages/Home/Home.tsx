@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { getHandsHistory } from '_redux/replayer/slice';
+// import { dataSelector } from '_redux/replayer/selectors';
 
 const Home = () => {
   const [file, setFile] = useState(null);
+  const dispatch = useDispatch();
+  const data = useSelector(state => state);
 
   const handleFileUpload = (e: any) => {
-    console.log(e.target.files);
-    if (e.target.files.length) {
+    if (e.target.files && e.target.files.length) {
       setFile(e.target.files[0]);
     }
   };
 
-  const send = () => {
-    fetch('/history', {
-      method: 'POST',
-      body: file,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }).then(response => response.json()).then(data => console.log(data.result));
-  }
+  const handleSendClick = () => {
+    dispatch(getHandsHistory(file));
+  };
+
+  console.log(data);
 
   return (
     <div className="App">
       <input type="file" onChange={handleFileUpload} />
-      <button onClick={send}>Отправить</button>
+      <button onClick={handleSendClick}>Отправить</button>
     </div>
   );
 }
