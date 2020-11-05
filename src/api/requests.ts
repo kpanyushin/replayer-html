@@ -1,3 +1,7 @@
 import Req from './request';
 
-export const getHandsHistory = (data: any) => Req.POST({ url: '/history', data });
+const headers = {
+  'Content-Type': 'application/x-www-form-urlencoded',
+};
+
+export const getHandsHistory = (data: any) => Req.POST({ url: '/history', data, headers });
